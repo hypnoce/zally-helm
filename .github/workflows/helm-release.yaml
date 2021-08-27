@@ -22,7 +22,7 @@ jobs:
 
       - name: Package
         shell: bash
-        run: release-chart.sh
+        run: ./release-chart.sh
         env:
           TERM: xterm-256color
 
