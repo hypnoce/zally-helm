@@ -1,0 +1,109 @@
+{{- if .Values.server.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "zally.server.fullname" . }}
+  labels:
+{{ include "zally.server.labels" . | indent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "zally.server.matchLabels" . | nindent 6 }}
+  replicas: {{ .Values.server.replicaCount }}
+  template:
+    metadata:
+      labels:
+        {{- include "zally.server.labels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      securityContext:
+        {{- toYaml .Values.server.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ template "zally.name" . }}-{{ .Values.server.name }}
+          securityContext:
+            {{- toYaml .Values.server.securityContext | nindent 12 }}
+          image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
+          imagePullPolicy: {{ .Values.server.image.pullPolicy }}
+          args:
+          {{- range $key, $value := .Values.server.extraArgs }}
+          {{- if $value }}
+            - --{{ $key }}={{ $value }}
+          {{- else }}
+            - --{{ $key }}
+          {{- end }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 8000
+            - name: management
+              containerPort: 7979
+          {{- if .Values.server.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 7979
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            failureThreshold: 2
+          {{- end }}
+          {{- if .Values.server.livenessProbe.enabled }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 7979
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            failureThreshold: 10
+          {{- end }}
+          resources:
+            {{- toYaml .Values.server.resources | nindent 12 }}
+          env:
+            {{- range $key, $value := .Values.server.extraEnv }}
+            - name: {{ $key }}
+              value: {{ $value }}
+            {{- end }}
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev # disable oauth security
+            - name: SPRING_DATASOURCE_URL
+              value: {{ .Values.server.jdbc.url }}
+            - name: SPRING_DATASOURCE_USERNAME
+              value: {{ .Values.server.jdbc.username }}
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: {{ .Values.server.jdbc.password }}
+            - name: MANAGEMENT_PORT
+              value: '7979'
+            - name: TOKEN_INFO_URI
+              value: 'http://no_url_set'
+            - name: rules-config-path
+              value: file:/rules-config.conf
+            - name: SPRING_APPLICATION_JSON
+              value: >
+                {"zally.ignoreRules": "100,101,234,102,103,218,215,219,104,105,225,106,107,108,109,111,112,113,114,115,185,186,187,188,189,190,191,118,125,240,216,122,123,124,235,126,127,167,172,168,238,169,170,173,223,224,130,132,135,137,138,139,140,141,142,228,241,145,144,146,148,149,229,231,154,236,237,226,220,152,153,176,177,155,156,157,158,227,159,160,161,162,163,217,164,165,166,178,133,179,180,181,182,230,183,184,233,192,193,194,195,196,197,198,199,200,201,203,202,242,204,205,207,208,209,210,211,212,213,214,M008,M009,M011,S005,S006,S007,H001"}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /rules-config.conf
+              subPath: rules-config.conf
+      {{- with .Values.server.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.server.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.server.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.imagePullSecrets | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ include "zally.server.fullname" . }}-config
+{{- end }}
