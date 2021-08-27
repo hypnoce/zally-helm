@@ -64,7 +64,7 @@ spec:
               value: {{ $value }}
             {{- end }}
             - name: ZALLY_API_URL
-              value: 'http://{{ template "zally.server.fullname" . }}:{{ .Values.server.service.servicePort }}'
+              value: '{{ .Values.web.apiUrl }}'
       {{- with .Values.web.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
