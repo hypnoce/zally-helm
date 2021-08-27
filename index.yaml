@@ -1,0 +1,19 @@
+apiVersion: v1
+entries:
+  zally:
+  - apiVersion: v2
+    appVersion: 2.0.0
+    created: "2021-08-27T14:22:16.122635041Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.9.2
+    description: A Helm chart for zally
+    digest: 20f992f4a43016d0f2195edcc34885de64881c7becb5024cad2c30e240c87f1d
+    name: zally
+    type: application
+    urls:
+    - zally-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-08-27T14:22:16.114637391Z"
