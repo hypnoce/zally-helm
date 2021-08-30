@@ -8,6 +8,8 @@ server:
 
   # Override zally default rules. Maps are additive. Arrays are not additive. See https://github.com/lightbend/config for syntax.
   rules:
+  # Override zally's default ignored rules
+  ignoreRules:
 
   image:
     repository:
