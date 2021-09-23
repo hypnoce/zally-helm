@@ -77,7 +77,7 @@ spec:
               value: '7979'
             - name: TOKEN_INFO_URI
               value: 'http://no_url_set'
-            - name: rules-config-path
+            - name: RULES_CONFIG_PATH
               value: file:/rules-config.conf
 {{- if .Values.server.ignoreRules }}
             - name: ZALLY_IGNORERULES
