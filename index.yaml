@@ -2,8 +2,23 @@ apiVersion: v1
 entries:
   zally:
   - apiVersion: v2
+    appVersion: 2.1.0
+    created: "2021-09-23T09:58:42.036934753Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.9.2
+    description: A Helm chart for zally
+    digest: 5728b30d96d6f2ce0f3e1e6c22e71528eac8e3abd9337c2a9c955f0450d6357e
+    name: zally
+    type: application
+    urls:
+    - zally-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
     appVersion: 2.0.0
-    created: "2021-08-30T09:44:06.816950657Z"
+    created: "2021-09-23T09:58:42.026423929Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -18,7 +33,7 @@ entries:
     version: 0.2.0
   - apiVersion: v2
     appVersion: 2.0.0
-    created: "2021-08-30T09:44:06.807951821Z"
+    created: "2021-09-23T09:58:42.018334825Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -33,7 +48,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 2.0.0
-    created: "2021-08-30T09:44:06.794380867Z"
+    created: "2021-09-23T09:58:42.01001231Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -46,4 +61,4 @@ entries:
     urls:
     - zally-0.1.0.tgz
     version: 0.1.0
-generated: "2021-08-30T09:44:06.786967838Z"
+generated: "2021-09-23T09:58:42.002725846Z"
