@@ -2,10 +2,10 @@ apiVersion: v2
 name: zally
 description: A Helm chart for zally
 type: application
-version: 0.2.1
-appVersion: "2.1.0"
+version: 0.3.0
+appVersion: "2.2.0"
 dependencies:
   - name: postgresql
     condition: postgresql.enabled
-    version: 10.9.2
+    version: 10.14.4
     repository: https://charts.bitnami.com/bitnami
