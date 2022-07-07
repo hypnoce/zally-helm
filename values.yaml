@@ -15,11 +15,19 @@ server:
     repository:
     tag: v2.0.0
     pullPolicy: Always
-
+  ## Database configuration
+  ## @param jdbc.url database url
+  ## @param jdbc.username Non-root username for database access
+  ## @param jdbc.password Password for the non-root username for database access
+  ## @param jdbc.existingSecret Name of an existing secret resource containing the database credentials
+  ## @param jdbc.existingSecretPasswordKey Name of an existing secret key containing the database credentials
+  ##
   jdbc:
     url: jdbc:hsqldb:mem:storage;sql.syntax_pgs=true
     password:
     username:
+    existingSecret:
+    existingSecretPasswordKey:
 
   nameOverride: ""
   fullnameOverride: ""
