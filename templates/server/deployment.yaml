@@ -91,7 +91,7 @@ spec:
               value: {{ .Values.server.ignoreRules }}
 {{- end }}
         {{- if .Values.server.jdbc.existingSecret }}
-        - envFrom:
+          envFrom:
             - secretRef:
                 name: {{ .Values.server.jdbc.existingSecret}}
         {{- end }}
